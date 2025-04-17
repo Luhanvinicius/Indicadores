@@ -1,42 +1,99 @@
-/* Reset básico e estilos globais */
+/* RESET E ESTILOS GLOBAIS MODERNOS */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 body {
-  background-color: #f5f7fa;
-  color: #333;
+  background-color: #f8fafc;
+  color: #1e293b;
   line-height: 1.6;
-  padding: 20px;
+  padding: 0;
+  min-height: 100vh;
 }
 
-/* Container principal */
+/* MENU DE NAVEGAÇÃO MELHORADO */
+.menu {
+  background: linear-gradient(135deg, #003366 0%, #005588 100%);
+  padding: 1rem 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 100;
+}
+
+.menu ul {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0 auto;
+  padding: 0 1rem;
+  max-width: 1200px;
+}
+
+.menu li {
+  margin: 0;
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  display: inline-block;
+  font-size: 0.95rem;
+}
+
+.menu a:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+/* LOGO CENTRALIZADO */
+.logo {
+  display: block;
+  margin: 1.5rem auto;
+  height: 80px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* TÍTULO PRINCIPAL */
 h2 {
-  color: #2c3e50;
+  color: #003366;
   text-align: center;
-  margin-bottom: 25px;
-  padding-bottom: 10px;
+  margin: 0 auto 2rem;
+  padding-bottom: 0.75rem;
   border-bottom: 2px solid #3498db;
+  max-width: 800px;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
+/* FORMULÁRIO PRINCIPAL */
 form {
   max-width: 1000px;
-  margin: 0 auto;
+  margin: 0 auto 3rem;
   background: white;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
 }
 
-/* Estilos para labels e inputs básicos */
+/* GRUPOS DE FORMULÁRIO */
 label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
   font-weight: 500;
-  color: #2c3e50;
+  color: #334155;
+  font-size: 0.95rem;
 }
 
 input[type="date"],
@@ -44,12 +101,13 @@ input[type="time"],
 input[type="text"],
 select {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-bottom: 15px;
-  font-size: 14px;
-  transition: border-color 0.3s;
+  padding: 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  margin-bottom: 1rem;
+  background-color: #f8fafc;
 }
 
 input[type="date"]:focus,
@@ -58,166 +116,167 @@ input[type="text"]:focus,
 select:focus {
   border-color: #3498db;
   outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+  background-color: white;
 }
 
-/* Seção de adicionar colaboradores */
-#colaboradorSelect,
-#turnoSelect {
-  padding: 10px;
-  border-radius: 4px;
-  border: 1px solid #ddd;
-  margin-right: 10px;
-  min-width: 200px;
+/* SELECT2 PERSONALIZADO */
+.select2-container .select2-selection--single {
+  height: 42px;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 8px !important;
+  background-color: #f8fafc;
 }
 
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  line-height: 42px !important;
+  padding-left: 12px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 40px !important;
+}
+
+/* BOTÕES MODERNOS */
 button {
   background-color: #3498db;
   color: white;
   border: none;
-  padding: 10px 15px;
-  border-radius: 4px;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s;
-  margin-right: 10px;
-  margin-bottom: 15px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  margin-right: 0.75rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 button:hover {
   background-color: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Linhas de colaboradores */
-#colaboradoresCampos {
-  margin-top: 20px;
+button:active {
+  transform: translateY(0);
 }
 
-.colaborador-row {
-  display: grid;
-  grid-template-columns: 1.5fr 0.8fr 1.2fr 1.2fr 1.5fr auto;
-  gap: 10px;
-  align-items: center;
-  padding: 15px;
-  margin-bottom: 15px;
-  background-color: #f8f9fa;
-  border-radius: 6px;
-  border-left: 4px solid #3498db;
-  transition: all 0.3s;
-}
-
-.colaborador-row:hover {
-  background-color: #eef2f7;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-}
-
-.colaborador-nome {
-  font-weight: 500;
-  color: #2c3e50;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* Checkbox de falta */
-input[type="checkbox"] {
-  transform: scale(1.2);
-  margin-right: 5px;
-}
-
-/* Botão de remover */
-.colaborador-row button {
-  background-color: #e74c3c;
-  padding: 8px 12px;
-  margin: 0;
-}
-
-.colaborador-row button:hover {
-  background-color: #c0392b;
-}
-
-/* Botão de enviar */
+/* BOTÃO DE ENVIAR DESTACADO */
 form > button[type="submit"] {
   display: block;
   width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  font-weight: bold;
-  margin-top: 20px;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 2rem;
   background-color: #2ecc71;
+  box-shadow: 0 4px 6px rgba(46, 204, 113, 0.2);
 }
 
 form > button[type="submit"]:hover {
   background-color: #27ae60;
 }
 
-/* Responsividade */
-@media (max-width: 900px) {
-  .colaborador-row {
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-  
-  .colaborador-row > * {
-    width: 100%;
-  }
-  
-  .colaborador-row button {
-    width: auto;
-    margin-top: 10px;
-  }
+/* ÁREA DE COLABORADORES */
+#colaboradoresCampos {
+  margin-top: 2rem;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 1.5rem;
 }
 
-@media (max-width: 600px) {
-  form {
-    padding: 15px;
-  }
-  
-  #colaboradorSelect,
-  #turnoSelect {
-    width: 100%;
-    margin-bottom: 10px;
-    margin-right: 0;
-  }
-  
-  button {
-    width: 100%;
-    margin-bottom: 10px;
-    margin-right: 0;
-  }
-  
-  .colaborador-row {
-    padding: 10px;
-  }
-}
-
-/* Efeitos para campos desabilitados */
-input:disabled {
-  background-color: #f0f0f0;
-  color: #999;
-}
-
-/* Estilo para agregados */
-.colaborador-row input[type="text"][placeholder="Nome do agregado"] {
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  width: 100%;
-}
-
-/* Mensagens de erro (se necessário) */
-.error-message {
-  color: #e74c3c;
-  font-size: 13px;
-  margin-top: -10px;
-  margin-bottom: 10px;
-  display: none;
-}
-
-/* Efeito de transição para adição/remoção de colaboradores */
+/* CARTÃO DE COLABORADOR */
 .colaborador-row {
-  animation: fadeIn 0.3s ease-in-out;
+  display: grid;
+  grid-template-columns: 1.5fr 0.8fr 0.8fr 1.2fr 1.2fr 1.5fr auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  border-left: 4px solid #3498db;
+  transition: all 0.3s ease;
+  animation: fadeIn 0.3s ease-out;
 }
 
+.colaborador-row:hover {
+  background-color: #f1f5f9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.colaborador-nome {
+  font-weight: 500;
+  color: #1e293b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* CHECKBOXES MELHORADOS */
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #94a3b8;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #3498db;
+  border-color: #3498db;
+}
+
+input[type="checkbox"]:checked::after {
+  content: "✓";
+  position: absolute;
+  color: white;
+  font-size: 12px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* BOTÃO REMOVER */
+.colaborador-row button {
+  background-color: #e74c3c;
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+}
+
+.colaborador-row button:hover {
+  background-color: #c0392b;
+}
+
+/* INPUTS DESABILITADOS */
+input:disabled {
+  background-color: #f1f5f9;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* PEQUENOS AJUSTES */
+small {
+  display: block;
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: -0.75rem;
+  margin-bottom: 1rem;
+}
+
+/* ANIMAÇÃO */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -226,5 +285,58 @@ input:disabled {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 900px) {
+  .colaborador-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .colaborador-row > * {
+    width: 100%;
+  }
+
+  .colaborador-row button {
+    width: auto;
+    margin-top: 0.5rem;
+    justify-self: start;
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 0;
+  }
+
+  form {
+    padding: 1.5rem;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+  }
+
+  .menu ul {
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .menu a {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  button {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  #colaboradorSelect,
+  #turnoSelect {
+    width: 100%;
+    margin-bottom: 1rem;
+    margin-right: 0;
   }
 }

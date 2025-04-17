@@ -46,6 +46,9 @@ try {
     echo "Erro ao carregar dados: " . $e->getMessage();
     exit;
 }
+
+$hoje = date('Y-m-d');
+$minDate = date('Y-m-d', strtotime('-3 days'));
 ?>
 
 
@@ -58,13 +61,26 @@ try {
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>
+<nav class="menu">
+  <ul>
+    <li><a href="preenchimento.php">Preenchimento</a></li>
+    <li><a href="cadastro.php">Cadastro</a></li>
+    <li><a href="consultar.php">Consultar Lista</a></li>
+    <li><a href="logout.php">Deslogar</a></li>
+  </ul>
+</nav>
 <img class="logo" src="./img/logo.png" alt="Logo" width="100px" style="display: block; margin: 0 auto;">
 <h2>Registro de Presença - <?php echo htmlspecialchars($filial); ?> - Operação: <?php echo htmlspecialchars($operacao); ?></h2>
 
 <form action="salvar_presenca.php" method="POST" onsubmit="return validarCampos();">
 
   <label>Data da Presença:
-    <input type="date" name="data_presenca" id="data_presenca" value="<?= date('Y-m-d') ?>" required>
+    <input type="date" name="data_presenca" id="data_presenca"
+           value="<?= $hoje ?>"
+           min="<?= $minDate ?>"
+           max="<?= $hoje ?>"
+           required>
+    <small>(Permitido: hoje e até 3 dias anteriores)</small>
   </label><br><br>
 
   <label>Adicionar colaborador (exceção):
