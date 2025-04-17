@@ -1,0 +1,230 @@
+/* Reset básico e estilos globais */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #f5f7fa;
+  color: #333;
+  line-height: 1.6;
+  padding: 20px;
+}
+
+/* Container principal */
+h2 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 25px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #3498db;
+}
+
+form {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para labels e inputs básicos */
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+input[type="date"],
+input[type="time"],
+input[type="text"],
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+input[type="date"]:focus,
+input[type="time"]:focus,
+input[type="text"]:focus,
+select:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+/* Seção de adicionar colaboradores */
+#colaboradorSelect,
+#turnoSelect {
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  margin-right: 10px;
+  min-width: 200px;
+}
+
+button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+  margin-right: 10px;
+  margin-bottom: 15px;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+/* Linhas de colaboradores */
+#colaboradoresCampos {
+  margin-top: 20px;
+}
+
+.colaborador-row {
+  display: grid;
+  grid-template-columns: 1.5fr 0.8fr 1.2fr 1.2fr 1.5fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  border-left: 4px solid #3498db;
+  transition: all 0.3s;
+}
+
+.colaborador-row:hover {
+  background-color: #eef2f7;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.colaborador-nome {
+  font-weight: 500;
+  color: #2c3e50;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Checkbox de falta */
+input[type="checkbox"] {
+  transform: scale(1.2);
+  margin-right: 5px;
+}
+
+/* Botão de remover */
+.colaborador-row button {
+  background-color: #e74c3c;
+  padding: 8px 12px;
+  margin: 0;
+}
+
+.colaborador-row button:hover {
+  background-color: #c0392b;
+}
+
+/* Botão de enviar */
+form > button[type="submit"] {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 20px;
+  background-color: #2ecc71;
+}
+
+form > button[type="submit"]:hover {
+  background-color: #27ae60;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+  .colaborador-row {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .colaborador-row > * {
+    width: 100%;
+  }
+  
+  .colaborador-row button {
+    width: auto;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  form {
+    padding: 15px;
+  }
+  
+  #colaboradorSelect,
+  #turnoSelect {
+    width: 100%;
+    margin-bottom: 10px;
+    margin-right: 0;
+  }
+  
+  button {
+    width: 100%;
+    margin-bottom: 10px;
+    margin-right: 0;
+  }
+  
+  .colaborador-row {
+    padding: 10px;
+  }
+}
+
+/* Efeitos para campos desabilitados */
+input:disabled {
+  background-color: #f0f0f0;
+  color: #999;
+}
+
+/* Estilo para agregados */
+.colaborador-row input[type="text"][placeholder="Nome do agregado"] {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+}
+
+/* Mensagens de erro (se necessário) */
+.error-message {
+  color: #e74c3c;
+  font-size: 13px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  display: none;
+}
+
+/* Efeito de transição para adição/remoção de colaboradores */
+.colaborador-row {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
