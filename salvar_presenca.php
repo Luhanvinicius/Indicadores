@@ -9,12 +9,20 @@ if (!isset($_SESSION['usuario'])) {
 
 $usuario = $_SESSION['usuario'];
 $filial = $_SESSION['filial'];
-$operacao = $_SESSION['operacao']; // Supondo que a operação esteja na sessão
+$operacao = $_SESSION['operacao'];
 $data_presenca = $_POST['data_presenca'];
 $datahora_preenchimento = date('Y-m-d H:i:s');
 
 try {
-  $conn = new PDO("mysql:host=assiduidade.mysql.uhserver.com;dbname=assiduidade", "assiduidade", "Grupojb2024@@");
+  // Conexão com charset utf8mb4
+  $conn = new PDO(
+    "mysql:host=assiduidade.mysql.uhserver.com;dbname=assiduidade;charset=utf8mb4",
+    "assiduidade",
+    "Grupojb2024@@",
+    [
+      PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4"
+    ]
+  );
   $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
   $ids = $_POST['colaborador_id'];
@@ -22,6 +30,11 @@ try {
   foreach ($ids as $id) {
     $is_agregado = isset($_POST["agregado_$id"]);
     $nome_agregado = $is_agregado ? ($_POST["nome_$id"] ?? 'Agregado sem nome') : null;
+
+    // Garante que o nome seja tratado corretamente (não obrigatório se tudo já estiver UTF-8)
+    if ($nome_agregado) {
+      $nome_agregado = trim($nome_agregado);
+    }
 
     $falta = isset($_POST["falta_$id"]) ? 1 : 0;
     $folga = isset($_POST["folga_$id"]) ? 1 : 0;
@@ -56,7 +69,7 @@ try {
         $datahora_preenchimento,
         $observacoes,
         $filial,
-        $operacao // Incluindo a operação aqui
+        $operacao
       ]);
     } else {
       // Inserir presença de colaborador com ID
@@ -84,7 +97,7 @@ try {
         $datahora_preenchimento,
         $observacoes,
         $filial,
-        $operacao // Incluindo a operação aqui
+        $operacao
       ]);
     }
   }
