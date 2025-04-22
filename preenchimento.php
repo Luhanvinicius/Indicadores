@@ -84,8 +84,9 @@ ob_end_flush();
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Registro de Presença - <?php echo htmlspecialchars($filial); ?> - Operação: <?php echo htmlspecialchars($operacao); ?></title>
+  <title>Registro de Presença</title>
   <link rel="stylesheet" href="./estilos/lista.css">
+  <link rel="shortcut icon" href="./img/logo.png" type="image/x-icon">
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>

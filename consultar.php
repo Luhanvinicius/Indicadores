@@ -122,6 +122,7 @@ ob_end_flush();
 <head>
     <meta charset="UTF-8">
     <title>Consultar Colaboradores</title>
+    <link rel="shortcut icon" href="./img/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="./estilos/consultar.css">
     <link rel="stylesheet" href="./estilos/menu.css">
 </head>

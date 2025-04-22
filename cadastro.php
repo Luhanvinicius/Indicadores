@@ -5,6 +5,7 @@ session_start();
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
+date_default_timezone_set('America/Sao_Paulo');
 
 // Verificação de sessão
 if (
@@ -79,6 +80,7 @@ ob_end_flush();
 <head>
     <meta charset="UTF-8">
     <title>Cadastro de Colaborador</title>
+    <link rel="shortcut icon" href="./img/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="./estilos/cadastro.css">
     <link rel="stylesheet" href="./estilos/menu.css">
     <style>

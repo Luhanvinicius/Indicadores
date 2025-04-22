@@ -12,6 +12,7 @@ $erro = isset($_GET['erro']) && $_GET['erro'] == 1;
 <head>
   <meta charset="UTF-8">
   <title>Login - Controle de Assiduidade</title>
+  <link rel="shortcut icon" href="./img/logo.png" type="image/x-icon">
   <link rel="stylesheet" href="./estilos/style.css">
   <style>
     .erro {
