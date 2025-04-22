@@ -97,7 +97,7 @@ ob_end_flush();
   </ul>
 </nav>
 
-    <h2>Cadastro de Colaborador</h2>
+    <h2>Cadastro de Colaboradores - Filial: <?php echo $filial; ?> | Operação: <?php echo $operacao; ?></h2>
     <form method="post" autocomplete="off">
         <label>Nome:</label><br>
         <input type="text" name="nome" required><br><br>
@@ -105,9 +105,9 @@ ob_end_flush();
         <label>Função:</label><br>
         <select name="funcao" required>
             <option value="">Selecione</option>
-            <option value="LIDER">Líder</option>
-            <option value="AUXILIAR">Auxiliar</option>
-            <option value="SERVICOS GERAIS">Serviços Gerais</option>
+            <option value="LIDER">LÍDER</option>
+            <option value="AUXILIAR">AUXILIAR</option>
+            <option value="SERVICOS GERAIS">SERVIÇOS GERAIS</option>
         </select><br><br>
 
         <label>Turno:</label><br>

@@ -49,17 +49,17 @@ try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Consulta para colaboradores padrão
-    $stmt = $conn->prepare("SELECT * FROM colaboradores WHERE filial = ? AND turno = ? AND operacao = ?");
+    $stmt = $conn->prepare("SELECT * FROM colaboradores WHERE filial = ? AND turno = ? AND operacao = ? AND ativo = 1");
     $stmt->execute([$filial, $turno, $operacao]);
     $colaboradores_padrao = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Consulta para todos colaboradores
-    $stmtTodos = $conn->prepare("SELECT * FROM colaboradores WHERE filial = ? AND operacao = ?");
+    $stmtTodos = $conn->prepare("SELECT * FROM colaboradores WHERE filial = ? AND operacao = ? AND ativo = 1");
     $stmtTodos->execute([$filial, $operacao]);
     $todos_colaboradores = $stmtTodos->fetchAll(PDO::FETCH_ASSOC);
 
     // Consulta para turnos disponíveis
-    $stmtTurnos = $conn->prepare("SELECT DISTINCT turno FROM colaboradores WHERE filial = ? AND operacao = ?");
+    $stmtTurnos = $conn->prepare("SELECT DISTINCT turno FROM colaboradores WHERE filial = ? AND operacao = ? AND ativo = 1");
     $stmtTurnos->execute([$filial, $operacao]);
     $todos_turnos = $stmtTurnos->fetchAll(PDO::FETCH_ASSOC);
 
@@ -97,7 +97,6 @@ ob_end_flush();
     <li><a href="logout.php">Deslogar</a></li>
   </ul>
 </nav>
-<img class="logo" src="./img/logo.png" alt="Logo" width="100px" style="display: block; margin: 0 auto;">
 <h2>Registro de Presença - <?php echo htmlspecialchars($filial); ?> - Operação: <?php echo htmlspecialchars($operacao); ?></h2>
 
 <form action="salvar_presenca.php" method="POST" onsubmit="return validarCampos();">
