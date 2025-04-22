@@ -1,4 +1,8 @@
 <?php
+// Inicia o buffer de saída para evitar problemas com headers
+ob_start();
+
+// Inicia/reinicia a sessão
 session_start();
 
 // Impede cache para forçar verificação de login
@@ -6,22 +10,36 @@ header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
-// Verificação de sessão
+// Verificação robusta de sessão
 if (
-    !isset($_SESSION['usuario']) ||
-    !isset($_SESSION['filial']) ||
-    !isset($_SESSION['turno']) ||
-    !isset($_SESSION['operacao'])
+    empty($_SESSION['usuario']) || 
+    empty($_SESSION['filial']) || 
+    empty($_SESSION['turno']) || 
+    empty($_SESSION['operacao'])
 ) {
+    // Destrói a sessão completamente se faltar algum dado
+    session_unset();
+    session_destroy();
     header("Location: index.php?erro=2");
-    exit;
+    exit();
 }
 
+// Verificação de tempo de inatividade (30 minutos)
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800)) {
+    session_unset();
+    session_destroy();
+    header("Location: index.php?erro=3");
+    exit();
+}
+$_SESSION['LAST_ACTIVITY'] = time(); // Atualiza o tempo da última atividade
+
+// Atribui variáveis da sessão
 $usuario = $_SESSION['usuario'];
 $filial = $_SESSION['filial'];
 $turno = $_SESSION['turno'];
 $operacao = $_SESSION['operacao'];
 
+// Conexão com o banco de dados
 try {
     $conn = new PDO(
         "mysql:host=assiduidade.mysql.uhserver.com;dbname=assiduidade;charset=utf8mb4",
@@ -30,25 +48,35 @@ try {
     );
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    // Consulta para colaboradores padrão
     $stmt = $conn->prepare("SELECT * FROM colaboradores WHERE filial = ? AND turno = ? AND operacao = ?");
     $stmt->execute([$filial, $turno, $operacao]);
     $colaboradores_padrao = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    // Consulta para todos colaboradores
     $stmtTodos = $conn->prepare("SELECT * FROM colaboradores WHERE filial = ? AND operacao = ?");
     $stmtTodos->execute([$filial, $operacao]);
     $todos_colaboradores = $stmtTodos->fetchAll(PDO::FETCH_ASSOC);
 
+    // Consulta para turnos disponíveis
     $stmtTurnos = $conn->prepare("SELECT DISTINCT turno FROM colaboradores WHERE filial = ? AND operacao = ?");
     $stmtTurnos->execute([$filial, $operacao]);
     $todos_turnos = $stmtTurnos->fetchAll(PDO::FETCH_ASSOC);
 
 } catch (PDOException $e) {
-    echo "Erro ao carregar dados: " . $e->getMessage();
-    exit;
+    // Log do erro (em produção, considere registrar em um arquivo de log)
+    error_log("Erro de banco de dados: " . $e->getMessage());
+    
+    // Mensagem genérica para o usuário
+    die("Ocorreu um erro ao acessar o sistema. Por favor, tente novamente mais tarde.");
 }
 
+// Datas importantes
 $hoje = date('Y-m-d');
 $minDate = date('Y-m-d', strtotime('-3 days'));
+
+// Libera o buffer de saída
+ob_end_flush();
 ?>
 
 
@@ -69,7 +97,7 @@ $minDate = date('Y-m-d', strtotime('-3 days'));
     <li><a href="logout.php">Deslogar</a></li>
   </ul>
 </nav>
-<img class="logo" src="./img/logo.png" alt="Logo" width="100px" style="display: block; margin: 0 auto;">
+<!-- <img class="logo" src="./img/logo.png" alt="Logo" width="100px" style="display: block; margin: 0 auto;"> -->
 <h2>Registro de Presença - <?php echo htmlspecialchars($filial); ?> - Operação: <?php echo htmlspecialchars($operacao); ?></h2>
 
 <form action="salvar_presenca.php" method="POST" onsubmit="return validarCampos();">
