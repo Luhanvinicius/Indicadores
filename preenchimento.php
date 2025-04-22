@@ -97,7 +97,7 @@ ob_end_flush();
     <li><a href="logout.php">Deslogar</a></li>
   </ul>
 </nav>
-<!-- <img class="logo" src="./img/logo.png" alt="Logo" width="100px" style="display: block; margin: 0 auto;"> -->
+<img class="logo" src="./img/logo.png" alt="Logo" width="100px" style="display: block; margin: 0 auto;">
 <h2>Registro de Presença - <?php echo htmlspecialchars($filial); ?> - Operação: <?php echo htmlspecialchars($operacao); ?></h2>
 
 <form action="salvar_presenca.php" method="POST" onsubmit="return validarCampos();">
