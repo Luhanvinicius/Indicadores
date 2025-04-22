@@ -6,6 +6,7 @@ header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
+// Verificação de sessão
 if (
     empty($_SESSION['usuario']) || 
     empty($_SESSION['filial']) || 
@@ -18,6 +19,7 @@ if (
     exit();
 }
 
+// Verifica tempo de inatividade
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800)) {
     session_unset();
     session_destroy();
@@ -30,6 +32,7 @@ $usuario = $_SESSION['usuario'];
 $filial = $_SESSION['filial'];
 $operacao = $_SESSION['operacao'];
 
+// Conexão com o banco
 try {
     $conn = new PDO(
         "mysql:host=assiduidade.mysql.uhserver.com;dbname=assiduidade;charset=utf8mb4",
@@ -42,11 +45,12 @@ try {
     die("Erro ao conectar ao banco de dados.");
 }
 
+// Cadastro
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nome = $_POST['nome'];
+    $nome = mb_strtoupper(trim($_POST['nome']), 'UTF-8'); // Garantia de maiúsculo
     $funcao = $_POST['funcao'];
     $turno = $_POST['turno'];
-    $setor = ""; // removido do formulário
+    $setor = ""; // Campo desativado
     $data_colaborador = date('Y-m-d H:i:s');
 
     $sql = "INSERT INTO colaboradores (nome, filial, turno, operacao, data_colaborador, setor, funcao)
@@ -77,6 +81,11 @@ ob_end_flush();
     <title>Cadastro de Colaborador</title>
     <link rel="stylesheet" href="./estilos/cadastro.css">
     <link rel="stylesheet" href="./estilos/menu.css">
+    <style>
+        input[name="nome"] {
+            text-transform: uppercase;
+        }
+    </style>
 </head>
 <body>
 <nav class="menu">
@@ -87,6 +96,7 @@ ob_end_flush();
     <li><a href="logout.php">Deslogar</a></li>
   </ul>
 </nav>
+
     <h2>Cadastro de Colaborador</h2>
     <form method="post" autocomplete="off">
         <label>Nome:</label><br>
