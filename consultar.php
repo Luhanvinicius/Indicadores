@@ -121,7 +121,7 @@ ob_end_flush();
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Consultar Colaboradores</title>
+    <title>Consultar Terceirizados</title>
     <link rel="shortcut icon" href="./img/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="./estilos/consultar.css">
     <link rel="stylesheet" href="./estilos/menu.css">
@@ -135,7 +135,7 @@ ob_end_flush();
     <li><a href="logout.php">Deslogar</a></li>
   </ul>
 </nav>
-    <h2>Lista de Colaboradores - Filial: <?php echo $filial; ?> | Operação: <?php echo $operacao; ?></h2>
+    <h2>Lista de Terceiros - Filial: <?php echo $filial; ?> | Operação: <?php echo $operacao; ?></h2>
 
     <form method="get" style="margin-bottom: 20px;">
         <label for="turno">Turno:</label>

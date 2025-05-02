@@ -14,7 +14,6 @@ $data_presenca = $_POST['data_presenca'];
 $datahora_preenchimento = date('Y-m-d H:i:s');
 
 try {
-  // Conexão com charset utf8mb4
   $conn = new PDO(
     "mysql:host=assiduidade.mysql.uhserver.com;dbname=assiduidade;charset=utf8mb4",
     "assiduidade",
@@ -31,7 +30,6 @@ try {
     $is_agregado = isset($_POST["agregado_$id"]);
     $nome_agregado = $is_agregado ? ($_POST["nome_$id"] ?? 'Agregado sem nome') : null;
 
-    // Garante que o nome seja tratado corretamente (não obrigatório se tudo já estiver UTF-8)
     if ($nome_agregado) {
       $nome_agregado = trim($nome_agregado);
     }
@@ -43,8 +41,9 @@ try {
     $hora_saida = ($falta || $folga) ? null : $_POST["hora_saida_$id"];
     $observacoes = $_POST["observacoes_$id"] ?? '';
 
+    $id_referenciado = null; // por padrão
+
     if ($is_agregado) {
-      // Inserir presença de agregado com nome manual
       $stmt = $conn->prepare("
         INSERT INTO presencas (
           nome_agregado,
@@ -56,8 +55,9 @@ try {
           datahora_preenchimento,
           observacoes,
           filial,
-          operacao
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          operacao,
+          id_referenciado
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       ");
       $stmt->execute([
         $nome_agregado,
@@ -69,10 +69,10 @@ try {
         $datahora_preenchimento,
         $observacoes,
         $filial,
-        $operacao
+        $operacao,
+        $id_referenciado
       ]);
     } else {
-      // Inserir presença de colaborador com ID
       $stmt = $conn->prepare("
         INSERT INTO presencas (
           colaborador_id,
@@ -84,8 +84,9 @@ try {
           datahora_preenchimento,
           observacoes,
           filial,
-          operacao
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          operacao,
+          id_referenciado
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       ");
       $stmt->execute([
         $id,
@@ -97,8 +98,48 @@ try {
         $datahora_preenchimento,
         $observacoes,
         $filial,
-        $operacao
+        $operacao,
+        $id_referenciado
       ]);
+    }
+  }
+
+  // 💡 Aqui entra a lógica dos suplentes:
+  if (!empty($_POST['suplente_de'])) {
+    foreach ($_POST['suplente_de'] as $id_referenciado) {
+      $nome_suplente = trim($_POST["nome_suplente_$id_referenciado"] ?? '');
+      $entrada_suplente = $_POST["hora_entrada_suplente_$id_referenciado"] ?? null;
+      $saida_suplente = $_POST["hora_saida_suplente_$id_referenciado"] ?? null;
+      $obs_suplente = $_POST["observacoes_suplente_$id_referenciado"] ?? '';
+
+      if ($nome_suplente && $entrada_suplente && $saida_suplente) {
+        $stmt = $conn->prepare("
+          INSERT INTO presencas (
+            nome_agregado,
+            data_presenca,
+            falta,
+            folga,
+            hora_entrada,
+            hora_saida,
+            datahora_preenchimento,
+            observacoes,
+            filial,
+            operacao,
+            id_referenciado
+          ) VALUES (?, ?, 0, 0, ?, ?, ?, ?, ?, ?, ?)
+        ");
+        $stmt->execute([
+          $nome_suplente,
+          $data_presenca,
+          $entrada_suplente,
+          $saida_suplente,
+          $datahora_preenchimento,
+          $obs_suplente,
+          $filial,
+          $operacao,
+          $id_referenciado
+        ]);
+      }
     }
   }
 

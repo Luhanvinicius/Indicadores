@@ -31,7 +31,6 @@ $_SESSION['LAST_ACTIVITY'] = time();
 
 $usuario = $_SESSION['usuario'];
 $filial = $_SESSION['filial'];
-$operacao = $_SESSION['operacao'];
 
 // Conexão com o banco
 try {
@@ -46,11 +45,27 @@ try {
     die("Erro ao conectar ao banco de dados.");
 }
 
+// Buscar operações distintas da filial do usuário
+try {
+    $stmtOp = $conn->prepare("SELECT DISTINCT operacao FROM colaboradores WHERE filial = ? ORDER BY operacao");
+    $stmtOp->execute([$filial]);
+    $operacoes = $stmtOp->fetchAll(PDO::FETCH_COLUMN);
+} catch (PDOException $e) {
+    error_log("Erro ao buscar operações: " . $e->getMessage());
+    $operacoes = [];
+}
+
 // Cadastro
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nome = mb_strtoupper(trim($_POST['nome']), 'UTF-8'); // Garantia de maiúsculo
+    $nome = mb_strtoupper(trim($_POST['nome']), 'UTF-8');
+    if(str_word_count($nome) < 2){
+        echo "<script>alert('Por favor, preencha o nome e sobrenome completo.');window.history.back();</script>";
+        exit();
+    }
+
     $funcao = $_POST['funcao'];
     $turno = $_POST['turno'];
+    $operacao = $_POST['operacao'];
     $setor = ""; // Campo desativado
     $data_colaborador = date('Y-m-d H:i:s');
 
@@ -79,7 +94,7 @@ ob_end_flush();
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Cadastro de Colaborador</title>
+    <title>Cadastro de Terceiros</title>
     <link rel="shortcut icon" href="./img/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="./estilos/cadastro.css">
     <link rel="stylesheet" href="./estilos/menu.css">
@@ -99,28 +114,38 @@ ob_end_flush();
   </ul>
 </nav>
 
-    <h2>Cadastro de Colaboradores - Filial: <?php echo $filial; ?> | Operação: <?php echo $operacao; ?></h2>
-    <form method="post" autocomplete="off">
-        <label>Nome:</label><br>
-        <input type="text" name="nome" required><br><br>
+<h2>Cadastro de Terceiros - Filial: <?php echo htmlspecialchars($filial); ?></h2>
+<form method="post" autocomplete="off">
+    <label>Nome:</label><br>
+    <input type="text" name="nome" required><br><br>
 
-        <label>Função:</label><br>
-        <select name="funcao" required>
-            <option value="">Selecione</option>
-            <option value="LIDER">LÍDER</option>
-            <option value="AUXILIAR">AUXILIAR</option>
-            <option value="SERVICOS GERAIS">SERVIÇOS GERAIS</option>
-        </select><br><br>
+    <label>Função:</label><br>
+    <select name="funcao" required>
+        <option value="">Selecione</option>
+        <option value="LIDER">LÍDER</option>
+        <option value="AUXILIAR">AUXILIAR</option>
+        <option value="SERVICOS GERAIS">SERVIÇOS GERAIS</option>
+    </select><br><br>
 
-        <label>Turno:</label><br>
-        <select name="turno" required>
-            <option value="">Selecione</option>
-            <option value="MANHÃ">MANHÃ</option>
-            <option value="TARDE">TARDE</option>
-            <option value="NOITE">NOITE</option>
-        </select><br><br>
+    <label>Turno:</label><br>
+    <select name="turno" required>
+        <option value="">Selecione</option>
+        <option value="MANHÃ">MANHÃ</option>
+        <option value="TARDE">TARDE</option>
+        <option value="NOITE">NOITE</option>
+    </select><br><br>
 
-        <button type="submit">Cadastrar</button>
-    </form>
+    <label>Operação:</label><br>
+    <select name="operacao" required>
+        <option value="">Selecione</option>
+        <?php foreach ($operacoes as $op): ?>
+            <option value="<?php echo htmlspecialchars($op); ?>">
+                <?php echo htmlspecialchars($op); ?>
+            </option>
+        <?php endforeach; ?>
+    </select><br><br>
+
+    <button type="submit">Cadastrar</button>
+</form>
 </body>
 </html>

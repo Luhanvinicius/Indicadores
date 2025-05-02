@@ -17,8 +17,6 @@ body {
 /* MENU DE NAVEGAÇÃO MELHORADO */
 .menu {
   background-color: #003366;
-  /* background: linear-gradient(135deg, #003366 0%, #005588 100%); */
-  /* padding: 1rem 0; */
   padding: 12px 0;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   position: relative;
@@ -80,13 +78,20 @@ h2 {
 
 /* FORMULÁRIO PRINCIPAL */
 form {
-  max-width: 1000px;
+  width: 100%;  /* O formulário ocupará 100% da largura disponível */
   margin: 0 auto 3rem;
   background: white;
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   border: 1px solid #e2e8f0;
+  box-sizing: border-box; /* Inclui o padding no cálculo da largura */
+}
+
+@media (max-width: 768px) {
+  form {
+    padding: 1rem;  /* Menos padding em telas menores */
+  }
 }
 
 /* GRUPOS DE FORMULÁRIO */
@@ -112,6 +117,37 @@ select {
   background-color: #f8fafc;
 }
 
+/* CONTAINER DOS CAMPOS DE FORMULÁRIO */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* LAYOUT DOS CAMPOS */
+.form-group label {
+  font-size: 1rem; 
+  margin-bottom: 0.25rem;  /* Menor espaçamento entre o label e o campo */
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  font-size: 1rem;
+  background-color: #f8fafc;
+}
+
+/* FIELDS ALIGNMENT */
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  width: 100%;
+}
+
 input[type="date"]:focus,
 input[type="time"]:focus,
 input[type="text"]:focus,
@@ -131,7 +167,6 @@ select:focus {
 }
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
-  /* line-height: 42px !important; */
   padding-left: 12px !important;
 }
 
@@ -193,30 +228,16 @@ form > button[type="submit"]:hover {
 
 /* CARTÃO DE COLABORADOR */
 .colaborador-row {
-  display: grid;
-  grid-template-columns: 1.5fr 0.8fr 0.8fr 1.2fr 1.2fr 1.5fr auto;
-  gap: 1rem;
-  align-items: center;
+  display: flex;
+  flex-wrap: wrap;               /* Flexbox para que as linhas quebrem conforme necessário */
+  gap: 15px;                     /* Espaço entre os itens */
+  align-items: flex-start;       /* Alinha os itens ao topo */
   padding: 1rem;
   margin-bottom: 1rem;
   background-color: #f8fafc;
   border-radius: 8px;
   border-left: 4px solid #3498db;
   transition: all 0.3s ease;
-  animation: fadeIn 0.3s ease-out;
-}
-
-.colaborador-row:hover {
-  background-color: #f1f5f9;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.colaborador-nome {
-  font-weight: 500;
-  color: #1e293b;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 /* CHECKBOXES MELHORADOS */
@@ -278,67 +299,25 @@ small {
   margin-bottom: 1rem;
 }
 
-/* ANIMAÇÃO */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* LINHA DE SUPLENTE */
+.suplente-row {
+  display: flex;                  /* Flexbox para alinhar os itens na mesma linha */
+  gap: 10px;                      /* Espaçamento entre os itens */
+  flex-wrap: nowrap;              /* Não permite quebras de linha */
+  align-items: center;            /* Alinha os itens no centro verticalmente */
+  justify-content: flex-start;    /* Garante que os itens fiquem alinhados à esquerda */
 }
 
-/* RESPONSIVIDADE */
-@media (max-width: 900px) {
-  .colaborador-row {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .colaborador-row > * {
-    width: 100%;
-  }
-
-  .colaborador-row button {
-    width: auto;
-    margin-top: 0.5rem;
-    justify-self: start;
-  }
+.suplente-row label {
+  margin-right: 10px;             /* Espaçamento entre rótulo e campo */
+  font-size: 14px;                /* Tamanho da fonte ajustado */
 }
 
-@media (max-width: 600px) {
-  body {
-    padding: 0;
-  }
-
-  form {
-    padding: 1.5rem;
-    border-radius: 0;
-    box-shadow: none;
-    border: none;
-  }
-
-  .menu ul {
-    gap: 0.5rem;
-    padding: 0.5rem;
-  }
-
-  .menu a {
-    padding: 0.5rem;
-    font-size: 0.85rem;
-  }
-
-  button {
-    width: 100%;
-    margin-right: 0;
-  }
-
-  #colaboradorSelect,
-  #turnoSelect {
-    width: 100%;
-    margin-bottom: 1rem;
-    margin-right: 0;
-  }
+.suplente-row input {
+  min-width: 150px;               /* Largura mínima dos inputs */
+  padding: 5px 10px;              /* Padding melhorado */
+  font-size: 14px;                /* Tamanho da fonte ajustado */
+  border: 1px solid #cbd5e1;      /* Borda clara */
+  border-radius: 8px;             /* Bordas arredondadas */
+  background-color: #f8fafc;      /* Cor de fundo */
 }
